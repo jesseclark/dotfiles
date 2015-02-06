@@ -37,12 +37,13 @@ set smarttab
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
+syntax enable
 
 " When vimrc is edited, reload it
-autocmd! bufwritepost vimrc source ~/.vimrc
+augroup reload_vimrc
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
 
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
@@ -133,7 +134,7 @@ let g:ctrlp_working_path_mode = 'r'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 " Color scheme
-colorscheme railscasts
+colorscheme molokai
 
 " New buffer at direction
 nmap <leader>sh  :leftabove  vnew<CR>
@@ -160,9 +161,6 @@ let g:ctrlp_prompt_mappings = {
 nmap <leader>T :tabnew<CR>
 nmap <leader>[ :tabp<CR>
 nmap <leader>] :tabn<CR>
-
-" Hide highlighting
-nmap <leader>h :nohl<CR>
 
 " Quick Ack
 nmap <C-a> :Ack
@@ -196,17 +194,10 @@ nnoremap <C-l> <C-w>l
 " Syntax
 """""""""""""""""
 
-" Add thor to syntax
 au BufRead,BufNewFile *.thor set filetype=ruby
-
-" RABL
 au BufRead,BufNewFile *.rabl set filetype=ruby
 au BufRead,BufNewFile *.axlsx set filetype=ruby
-
-" CSVBuilder
 au BufRead,BufNewFile *.csvbuilder set filetype=ruby
-
-" Add haml to syntax
 au BufRead,BufNewFile *.hamljs set filetype=haml
 
 " SLIME
@@ -225,3 +216,4 @@ let g:slime_target = "tmux"
 
 "inoremap <tab> <c-r>=InsertTabWrapper ("forw")<cr>
 "inoremap <s-tab> <c-r>=InsertTabWrapper ("back")<cr>
+
