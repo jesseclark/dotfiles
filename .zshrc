@@ -7,40 +7,6 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="ys"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -49,7 +15,7 @@ plugins=(git rails ruby bundler)
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export PATH="/Users/jesse/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -61,10 +27,12 @@ export GITHUB_API_TOKEN=ac470149e62bf95f9ca3e5b29a522e345115f75e
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='subl'
+  export EDITOR='vim'
 else
-  export EDITOR='subl'
+  export EDITOR='vim'
 fi
+
+ulimit -n 10240
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -80,15 +48,35 @@ fi
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias zshconf="vim ~/.zshrc"
+alias bbsh="~/src/gc/script/bbsh"
+alias mux="boot_tmux_env"
+alias redis="redis-server config/redis.conf"
+
+# git aliases
 alias grm='git rm'
 alias grb='git rebase'
 alias gbr='git branch'
-alias zshconf="subl ~/.zshrc"
-alias gcdir='cd ~/src/gc'
-alias crimsondir='cd ~/src/crimson'
-alias healthdir='cd ~/src/health_records'
-alias bbsh="~/src/gc/script/bbsh"
-alias dbmigrate='rake db:migrate && RAILS_ENV=test rake db:migrate'
 
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+# src dir aliases
+alias cdgc='cd ~/src/gc'
+alias cdcr='cd ~/src/crimson'
+alias cdhe='cd ~/src/health_records'
+alias cdse='cd ~/src/security_engine'
+alias cdrr='cd ~/src/roles_on_routes'
+alias cdcm='cd ~/src/care_management_engine'
+alias cdno='cd ~/src/notification'
+
+# rails aliases
+alias dbmigrate='rake db:migrate && RAILS_ENV=test rake db:migrate'
+alias devtail="less -r -n +F log/development.log"
+alias testtail="less -r -n +F log/test.log"
+alias rollback="rake db:rollback && RAILS_ENV=test rake db:rollback"
+alias testprep="rake db:test:prepare --trace"
+alias devsql="mysql --user=root --database navcan_development"
+alias testsql="mysql --user=root --database navcan_test"
+
+alias alltests="time rake spec:no_acceptance; time cucumber --format=progress -t ~@run_solo -t ~@in_progress -t ~@javascript features; time rake spec:acceptance:no_javascript"
+
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+

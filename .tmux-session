@@ -1,0 +1,16 @@
+# Default tmux session
+rename-window -t 0 primary
+split-window -t 0.0 -h -p 80
+send -t 0.1 'vim -S ~/.vim/sessions/default.vim' Enter
+new-window -n servers
+split-window -t 1.0 -h
+split-window -t 1.0 -v
+send -t 1.0 'unicorn' Enter
+send -t 1.1 'spork'   Enter
+send -t 1.2 'pry' Enter
+new-window -n sql
+split-window -t 2.0 -v
+send -t 2.0 'vim recent_queries.sql' Enter
+send -t 2.1 'devsql' Enter
+select-window -t 0
+select-pane -t 0
