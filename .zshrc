@@ -1,26 +1,89 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
+typeset -U path
+path+=(/usr/local/opt/openssl@1.1/bin)
+path+=(/Users/jesse/Library/Python/3.7/bin)
+path+=("$HOME/bin")
+export PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/jesse/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="ys"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rails ruby bundler)
-
-# User configuration
-
-export PATH="/Users/jesse/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$PATH"
-# export MANPATH="/usr/local/man:$MANPATH"
+plugins=(git ruby rails bundler)
 
 source $ZSH/oh-my-zsh.sh
 
-export GITHUB_API_TOKEN=ac470149e62bf95f9ca3e5b29a522e345115f75e
+# User configuration
+
+ulimit -n 10240
+
+# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -29,16 +92,14 @@ export GITHUB_API_TOKEN=ac470149e62bf95f9ca3e5b29a522e345115f75e
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='vim'
+  export EDITOR='mine'
 fi
-
-ulimit -n 10240
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+eval "$(rbenv init -)"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -46,37 +107,8 @@ ulimit -n 10240
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+# alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-alias zshconf="vim ~/.zshrc"
-alias bbsh="~/src/gc/script/bbsh"
-alias mux="boot_tmux_env"
-alias redis="redis-server config/redis.conf"
-
-# git aliases
-alias grm='git rm'
-alias grb='git rebase'
-alias gbr='git branch'
-
-# src dir aliases
-alias cdgc='cd ~/src/gc'
-alias cdcr='cd ~/src/crimson'
-alias cdhe='cd ~/src/health_records'
-alias cdse='cd ~/src/security_engine'
-alias cdrr='cd ~/src/roles_on_routes'
-alias cdcm='cd ~/src/care_management_engine'
-alias cdno='cd ~/src/notification'
-
-# rails aliases
-alias dbmigrate='rake db:migrate && RAILS_ENV=test rake db:migrate'
 alias devtail="less -r -n +F log/development.log"
 alias testtail="less -r -n +F log/test.log"
-alias rollback="rake db:rollback && RAILS_ENV=test rake db:rollback"
-alias testprep="rake db:test:prepare --trace"
-alias devsql="mysql --user=root --database navcan_development"
-alias testsql="mysql --user=root --database navcan_test"
-
-alias alltests="time rake spec:no_acceptance; time cucumber --format=progress -t ~@run_solo -t ~@in_progress -t ~@javascript features; time rake spec:acceptance:no_javascript"
-
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
+alias gbb="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
