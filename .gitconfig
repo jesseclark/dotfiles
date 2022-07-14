@@ -1,0 +1,21 @@
+[user]
+	name = Jesse Clark
+	email = jesse@jesseclark.com
+[color]
+	ui = true
+[push]
+	default = simple
+[merge]
+	tool = diffmerge
+[mergetool "diffmerge"]
+	cmd = diffmerge --merge\n--result=$MERGED $LOCAL $BASE $REMOTE
+	trustExitCode = true
+[mergetool]
+	keepBackup = false
+[diff]
+	tool = diffmerge
+[difftool "diffmerge"]
+	cmd = diffmerge $LOCAL $REMOTE
+[core]
+	excludesfile = /Users/jesse/.gitignore
+	editor = vim
