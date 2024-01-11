@@ -5,6 +5,7 @@
 	ui = true
 [push]
 	default = simple
+	autoSetUpRemote = true
 [merge]
 	tool = diffmerge
 [mergetool "diffmerge"]
@@ -19,3 +20,7 @@
 [core]
 	excludesfile = /Users/jesse/.gitignore
 	editor = vim
+[credential]
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true

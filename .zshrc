@@ -6,6 +6,7 @@ typeset -U path
 path+=(/usr/local/opt/openssl@1.1/bin)
 path+=(/Users/jesse/Library/Python/3.7/bin)
 path+=("$HOME/bin")
+path+=("/Applications/RubyMine.app/Contents/MacOS")
 export PATH
 
 # Path to your oh-my-zsh installation.
@@ -89,16 +90,18 @@ ulimit -n 10240
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mine'
-fi
+export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+#export DOCKER_DEFAULT_PLATFORM="linux/amd64"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
+export optflags="-Wno-error=implicit-function-declaration"
+export LDFLAGS="-L/opt/homebrew/opt/readline/lib -L/opt/homebrew/opt/openssl@3/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/readline/include -I/opt/homebrew/opt/openssl@3/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/readline/lib/pkgconfig /opt/homebrew/opt/openssl@3/pkgconfig"
+
 eval "$(rbenv init -)"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -112,3 +115,9 @@ eval "$(rbenv init -)"
 alias devtail="less -r -n +F log/development.log"
 alias testtail="less -r -n +F log/test.log"
 alias gbb="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
+alias mine="rubymine"
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+export PATH="/usr/local/sbin:$PATH"
